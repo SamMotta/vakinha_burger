@@ -84,21 +84,34 @@ class _OrderPageState extends BaseState<OrderPage, OrderController> {
     return BlocListener<OrderController, OrderState>(
       listener: (context, state) {
         state.status.matchAny(
-            any: () => hideLoader,
-            loading: () => showLoader,
-            loaded: () => hideLoader,
-            error: () {
-              hideLoader();
-              showError('Erro');
-            },
-            confirmRemoveProduct: () {
-              hideLoader();
+          any: () => hideLoader,
+          loading: () => showLoader,
+          loaded: () => hideLoader,
+          success: () {
+            hideLoader();
+            Navigator.of(context).popAndPushNamed(
+              '/order/compledted',
+              result: <OrderProductDto>[],
+            );
+          },
+          confirmRemoveProduct: () {
+            hideLoader();
 
-              if (state is OrderConfirmDeleteProductState) {
-                //! Importante: Autopromoção de tipos
-                _showConfirmProductDialog(state);
-              }
-            });
+            if (state is OrderConfirmDeleteProductState) {
+              //! Importante: Autopromoção de tipos
+              _showConfirmProductDialog(state);
+            }
+          },
+          error: () {
+            hideLoader();
+            showError('Erro');
+          },
+          emptyBag: () {
+            hideLoader();
+            showInfo('Sua sacola está vazia!');
+            Navigator.of(context).pop(<OrderProductDto>[]);
+          },
+        );
       },
       child: WillPopScope(
         onWillPop: () async {
@@ -125,7 +138,7 @@ class _OrderPageState extends BaseState<OrderPage, OrderController> {
                           style: context.textStyles.textTitle,
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () => controller.emptyBag(),
                           icon: Image.asset(
                             'assets/images/trashRegular.png',
                           ),
@@ -218,17 +231,17 @@ class _OrderPageState extends BaseState<OrderPage, OrderController> {
                       const SizedBox(height: 10),
                       BlocSelector<OrderController, OrderState, List<PaymentTypeModel>>(
                         selector: (state) => state.paymentTypes,
-                        builder: (context, payment) {
+                        builder: (context, paymentType) {
                           return ValueListenableBuilder(
                             valueListenable: paymentTypeValid,
                             builder: (_, paymentTypeValidValue, child) {
                               return PaymentTypesField(
-                                valid: paymentTypeValidValue,
-                                paymentTypes: payment,
-                                valueSelected: paymentTypeId.toString(),
+                                paymentTypes: paymentType,
                                 valueChanged: (value) {
                                   paymentTypeId = value;
                                 },
+                                valid: paymentTypeValidValue,
+                                valueSelected: paymentTypeId.toString(),
                               );
                             },
                           );
@@ -254,7 +267,13 @@ class _OrderPageState extends BaseState<OrderPage, OrderController> {
                             final paymentTypeSelected = paymentTypeId != null;
                             paymentTypeValid.value = paymentTypeSelected;
 
-                            if (valid) {}
+                            if (valid && paymentTypeSelected) {
+                              controller.saveOrder(
+                                address: _addressEC.text,
+                                cpf: _cpfEC.text,
+                                paymentMethodID: paymentTypeId!,
+                              );
+                            }
                           },
                           width: double.infinity,
                           height: 48,

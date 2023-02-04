@@ -33,7 +33,7 @@ class PaymentTypesField extends StatelessWidget {
             selectedValue: valueSelected,
             modalType: S2ModalType.bottomSheet,
             onChange: (selected) {
-              int.parse(selected.value);
+              valueChanged(int.parse(selected.value));
             },
             tileBuilder: (context, state) {
               return InkWell(
@@ -55,12 +55,7 @@ class PaymentTypesField extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Visibility(
-                      visible: !valid,
-                      child: const Divider(
-                        color: Colors.red,
-                      ),
-                    ),
+                    Visibility(visible: !valid, child: const Divider(color: Colors.red)),
                     Visibility(
                       visible: !valid,
                       child: Padding(

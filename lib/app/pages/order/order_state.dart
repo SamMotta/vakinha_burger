@@ -12,8 +12,10 @@ enum OrderStatus {
   inital,
   loading,
   loaded,
+  success,
   updateOrder,
   confirmRemoveProduct,
+  emptyBag,
   error,
 }
 

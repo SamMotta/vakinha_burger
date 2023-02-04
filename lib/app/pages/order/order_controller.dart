@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:vakinha_burger/app/dto/order_dto.dart';
 import 'package:vakinha_burger/app/dto/order_product_dto.dart';
 import 'package:vakinha_burger/app/pages/order/order_state.dart';
 import 'package:vakinha_burger/app/repositories/orders/order_repository.dart';
@@ -44,6 +45,12 @@ class OrderController extends Cubit<OrderState> {
       orders[index] = order.copyWith(amount: order.amount - 1);
     }
 
+    if (orders.isEmpty) {
+      emit(state.copyWith(status: OrderStatus.emptyBag));
+
+      return;
+    }
+
     emit(state.copyWith(products: orders, status: OrderStatus.updateOrder));
   }
 
@@ -66,5 +73,24 @@ class OrderController extends Cubit<OrderState> {
 
   void cancelDeleteProcess() {
     emit(state.copyWith(status: OrderStatus.loaded));
+  }
+
+  void emptyBag() {
+    emit(state.copyWith(status: OrderStatus.emptyBag));
+  }
+
+  void saveOrder({
+    required String address,
+    required String cpf,
+    required int paymentMethodID,
+  }) async {
+    emit(state.copyWith(status: OrderStatus.loading));
+    await _orderRepo.saveOrder(OrderDto(
+      products: state.products,
+      address: address,
+      cpf: cpf,
+      paymentMethodID: paymentMethodID,
+    ));
+    emit(state.copyWith(status: OrderStatus.success));
   }
 }

@@ -5,5 +5,5 @@ import 'package:vakinha_burger/app/core/config/env.dart';
 
 void main() async {
   await Env.instance.load();
-  runApp(const App());
+  runApp(App());
 }
