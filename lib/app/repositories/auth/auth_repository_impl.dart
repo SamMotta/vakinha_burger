@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:vakinha_burger/app/core/exceptions/repository_exceptions.dart';
 import 'package:vakinha_burger/app/core/exceptions/unathorized_exception.dart';
-import 'package:vakinha_burger/app/core/rest_client/dio.dart';
+import 'package:vakinha_burger/app/core/rest_client/custom_dio.dart';
 import 'package:vakinha_burger/app/models/auth_model.dart';
 
 import './auth_repository.dart';

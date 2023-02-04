@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vakinha_burger/app/core/rest_client/dio.dart';
+import 'package:vakinha_burger/app/core/rest_client/custom_dio.dart';
 import 'package:vakinha_burger/app/repositories/auth/auth_repository.dart';
 import 'package:vakinha_burger/app/repositories/auth/auth_repository_impl.dart';
 
@@ -8,9 +8,9 @@ class ApplicationBinding extends StatelessWidget {
   final Widget child;
 
   const ApplicationBinding({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class ApplicationBinding extends StatelessWidget {
           create: (context) => AuthRepositoryImpl(
             dio: context.read(),
           ),
-        )
+        ),
       ],
       child: child,
     );

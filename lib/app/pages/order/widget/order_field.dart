@@ -3,15 +3,15 @@ import 'package:vakinha_burger/app/core/ui/styles/text_styles.dart';
 
 class OrderField extends StatelessWidget {
   final String title;
-  final TextEditingController textEditingController;
-  final FormFieldValidator formFieldValidator;
+  final TextEditingController controller;
+  final FormFieldValidator validator;
   final String hintText;
 
   const OrderField({
     super.key,
     required this.title,
-    required this.textEditingController,
-    required this.formFieldValidator,
+    required this.controller,
+    required this.validator,
     required this.hintText,
   });
 
@@ -40,6 +40,8 @@ class OrderField extends StatelessWidget {
             ),
           ),
           TextFormField(
+            controller: controller,
+            validator: validator,
             decoration: InputDecoration(
               hintText: hintText,
               border: defaultBorder,

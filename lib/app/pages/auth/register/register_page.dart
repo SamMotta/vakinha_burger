@@ -16,7 +16,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends BaseState<RegisterPage, RegisterController> {
-  final _formKey = GlobalKey<FormState>();
+  final _registerKey = GlobalKey<FormState>();
 
   final _nameEC = TextEditingController();
   final _emailEC = TextEditingController();
@@ -53,7 +53,7 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterController> {
         appBar: DeliveryAppbar(),
         body: SingleChildScrollView(
           child: Form(
-            key: _formKey,
+            key: _registerKey,
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -106,7 +106,7 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterController> {
                   Center(
                     child: DeliveryButton(
                       onPressed: () {
-                        final valid = _formKey.currentState?.validate() ?? false;
+                        final valid = _registerKey.currentState?.validate() ?? false;
 
                         if (valid) {
                           controller.register(

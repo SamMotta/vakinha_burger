@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:vakinha_burger/app/core/exceptions/repository_exceptions.dart';
-import 'package:vakinha_burger/app/core/rest_client/dio.dart';
+import 'package:vakinha_burger/app/core/rest_client/custom_dio.dart';
 import 'package:vakinha_burger/app/models/product_model.dart';
 
 import 'package:dio/dio.dart';

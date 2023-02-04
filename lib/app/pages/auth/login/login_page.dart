@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends BaseState<LoginPage, LoginController> {
-  final _formKey = GlobalKey<FormState>();
+  final _loginKey = GlobalKey<FormState>();
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
 
@@ -55,7 +55,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
           slivers: [
             SliverToBoxAdapter(
               child: Form(
-                key: _formKey,
+                key: _loginKey,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -98,7 +98,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
                         child: DeliveryButton(
                           label: 'ENTRAR',
                           onPressed: () {
-                            final valid = _formKey.currentState?.validate() ?? false;
+                            final valid = _loginKey.currentState?.validate() ?? false;
 
                             if (valid) {
                               controller.login(_emailEC.text, _passwordEC.text);
